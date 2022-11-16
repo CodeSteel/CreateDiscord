@@ -121,7 +121,7 @@ export const sendMessage = (repo, issue) => {
       iconURL: issue.user.avatar,
       url: issue.user.url,
     })
-    .setColor(0x00ae86)
+    .setColor(0x000)
     .setDescription(issue.description)
     .setURL(issue.url);
 
