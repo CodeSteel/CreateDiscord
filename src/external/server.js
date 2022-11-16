@@ -24,7 +24,7 @@ export function initializeServer() {
     console.log(`Received webhook (${event})`, repo, data);
 
     sendMessage(repo, {
-      id: toString(data.issue.number),
+      number: data.issue.number,
       user: {
         name: data.issue.user.login,
         url: data.issue.user.html_url,

@@ -102,10 +102,10 @@ export const sendMessage = (repo, issue) => {
   const channel = channels.first();
 
   const embed = new EmbedBuilder()
-    .setTitle(issue.id)
+    .setTitle(toString(issue.number))
     .setAuthor({
       name: issue.user.name,
-      avatar: issue.user.avatar,
+      icon_url: issue.user.avatar,
       url: issue.user.url,
     })
     .setColor(0x00ae86)
