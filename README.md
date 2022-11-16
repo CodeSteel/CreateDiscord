@@ -1,2 +1,2 @@
-# CreateDiscord
-Create, Inc'sDiscord Bot/
+# Create. Discord
+Create, Inc's Discord Bot
