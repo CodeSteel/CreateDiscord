@@ -19,8 +19,8 @@ export function initializeServer() {
     res.send("Hello World!");
   });
 
-  webhookHandler.on("event", function (event, repo, data) {
-    console.log(event, repo, data);
+  webhookHandler.on("*", function (repo, data) {
+    console.log("Received a webhook event:", repo, data);
 
     sendMessage(repo, {
       id: data.issue.number,
