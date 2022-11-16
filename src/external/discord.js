@@ -106,7 +106,7 @@ export const sendMessage = (repo, issue) => {
   console.log(
     "Issue Name: " + issue.description,
     "Issue URL: " + issue.url,
-    "Issue #:" + issue.number,
+    "Issue #:" + toString(issue.number),
     "Issue Author: " + issue.user.name,
     "Issue Author Avatar: " + issue.user.avatar,
     "Issue Author URL: " + issue.user.url
@@ -115,7 +115,7 @@ export const sendMessage = (repo, issue) => {
   const embed = new EmbedBuilder()
     .setTitle(issue.number)
     .setAuthor({
-      name: issue.user.name,
+      name: toString(issue.user.name),
       icon_url: issue.user.avatar,
       url: issue.user.url,
     })
