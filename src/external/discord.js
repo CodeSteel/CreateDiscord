@@ -37,21 +37,6 @@ const getCommands = () => {
   return commandList;
 };
 
-const getButtons = () => {
-  const buttonList = [];
-
-  const buttonFiles = fs
-    .readdirSync("./src/buttons")
-    .filter((f) => f.endsWith(".cjs"));
-  for (const file of buttonFiles) {
-    const button = require(`../buttons/${file}`);
-    buttonList.push(button);
-    console.log(`Loaded button ${button.data.name}`);
-  }
-
-  return buttonList;
-};
-
 export const initializeBot = async () => {
   client = new Client({
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
@@ -99,58 +84,6 @@ export const initializeBot = async () => {
       console.error(error);
       await interaction.reply({
         content: "There was an error while executing this command!",
-        ephemeral: true,
-      });
-    }
-  });
-
-  //* Listen for button events */
-  client.on(Events.InteractionCreate, async (interaction) => {
-    if (!interaction.isButton()) return;
-
-    // is it a modal
-    if (interaction.customId.startsWith("modal")) {
-      const buttonName = interaction.customId.split("-")[1];
-      const button = getButtons().find((b) => b.data.name === buttonName);
-      
-
-    // const button = interaction.customId;
-  
-    
-    try {
-      if (interaction.customId.startsWith("modal")) {
-        const buttonName = interaction.customId.split("-")[1];
-        const button = getButtons().find((b) => b.data.name === buttonName);
-
-        if (repos.includes(button)) { 
-          const createIssueButton = getButtons().find(
-            (b) => b.data.name === "createissuemodal"
-          );
-          await createIssueButton.execute(interaction, button);
-        }
-      } else {
-        const buttonEvent = getButtons().find(
-          (b) => b.data.name === interaction.customId
-        );
-
-      
-        if (!buttonEvent) {
-          getAllRepo().then(async (repos) => {
-            if (repos.includes(button)) { 
-              const createIssueButton = getButtons().find(
-                (b) => b.data.name === "createissuemodal"
-              );
-              await createIssueButton.execute(interaction, button);
-            }
-          });
-        } else {
-          await buttonEvent.execute(interaction);
-        }
-      }
-    } catch (error) {
-      console.error(error);
-      await interaction.reply({
-        content: "There was an error while executing this button!",
         ephemeral: true,
       });
     }

@@ -7,16 +7,12 @@ function setRepo(channel, repo) {
 
 async function getRepo(channel) {
   const json = await db.JSON();
-
-  // find the repo that has a object with  channel: channel
   const repo = Object.keys(json).find((key) => json[key].channel === channel);
-
   return repo;
 }
 
 async function getAllRepo() {
   const json = await db.JSON();
-
   return Object.keys(json);
 }
 
@@ -28,5 +24,5 @@ module.exports = {
   setRepo,
   getRepo,
   getChannel,
-  getAllRepo
+  getAllRepo,
 };
