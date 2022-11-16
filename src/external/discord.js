@@ -115,7 +115,7 @@ export const sendMessage = (repo, issue) => {
   const embed = new EmbedBuilder()
     .setTitle(issue.number)
     .setAuthor({
-      name: toString(issue.user.name),
+      name: issue.user.name.toString(),
       icon_url: issue.user.avatar,
       url: issue.user.url,
     })
