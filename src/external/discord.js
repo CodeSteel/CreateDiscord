@@ -94,6 +94,11 @@ export const initializeBot = async () => {
 export const getBot = () => client;
 
 export const sendMessage = (repo, issue) => {
+  const opened = issue.action === "opened";
+  if (!opened && issue.action !== "closed") {
+    return;
+  }
+
   const channel = client.channels.cache.find(
     (c) => c.name.toLowerCase() === repo.toLowerCase()
   );
@@ -104,7 +109,6 @@ export const sendMessage = (repo, issue) => {
 
   console.log(`Sending message to ${channel.name}`);
 
-  const opened = issue.action === "opened";
   const description = toString(issue.description).replace(/\r?\n/g, " ");
   const mdDescription = `${issue.title}\n\n> ${description}`;
 
