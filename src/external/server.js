@@ -38,7 +38,8 @@ export function initializeServer() {
         url: data.issue.user.html_url,
         avatar: data.issue.user.avatar_url,
       },
-      description: data.issue.title,
+      title: data.issue.title,
+      description: data.issue.body,
       url: data.issue.html_url,
       action: data.action,
     });

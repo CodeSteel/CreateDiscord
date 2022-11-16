@@ -1,35 +1,23 @@
-import { initializeJobs } from "./external/jobs.js";
-import { initializeBot, sendMessage } from "./external/discord.js";
+import { initializeBot } from "./external/discord.js";
 import { initializeServer } from "./external/server.js";
 
-initializeJobs();
 initializeBot();
 initializeServer();
 
-//* testing grounds
-
-// .setTitle(issue.id)
-// // set author
-// .setAuthor(
-//   new EmbedBuilder.Author()
-//     .setName(issue.user.name)
-//     .setUrl(issue.user.url)
-//     .setIconURL(issue.user.avatar)
-// )
-// .setColor(0x00ae86)
-// .setDescription(issue.description)
-// .setURL(issue.url);
+//* Testing Grounds */
 
 // setInterval(() => {
-//   sendMessage("boom", {
+//   sendMessage("thebakery", {
 //     number: 37,
 //     user: {
 //       name: "CodeSteel",
 //       url: "https://github.com/CodeSteel",
 //       avatar: "https://avatars.githubusercontent.com/u/48765827?v=4",
 //     },
-//     description: "better permissions 😎",
+//     title: "feat: get new things on board 😎",
+//     description:
+//       "This is a test issue. This is a test issue. This is a test issue. This is a test issue. This is a test issue. This is a test issue. This is a test issue.",
 //     url: "https://github.com/CodeSteel/TheBakery/issues/37",
-//     action: "opened",
+//     action: "closed",
 //   });
-// }, 1500);
+// }, 2000);

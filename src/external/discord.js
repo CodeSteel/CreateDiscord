@@ -104,6 +104,12 @@ export const sendMessage = (repo, issue) => {
 
   console.log(`Sending message to ${channel.name}`);
 
+  const opened = issue.action === "opened";
+  const description = issue.description
+    .substring(0, 1024)
+    .replace(/\r?\n/g, " ");
+  const mdDescription = `${issue.title}\n\n> ${description}`;
+
   const embed = new EmbedBuilder()
     .setTitle(issue.action + " #" + issue.number.toString())
     .setAuthor({
@@ -111,8 +117,8 @@ export const sendMessage = (repo, issue) => {
       iconURL: issue.user.avatar,
       url: issue.user.url,
     })
-    .setColor(0x000)
-    .setDescription(issue.description)
+    .setColor(opened ? 0xffffff : 0x000)
+    .setDescription(opened ? mdDescription : issue.title)
     .setURL(issue.url);
 
   channel.send({ embeds: [embed] });
