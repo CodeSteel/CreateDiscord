@@ -13,7 +13,7 @@ export function initializeServer() {
 
   // post request from github webhook
   app.post("/webhook", (req, res) => {
-    console.log(req.body);
+    console.log(req);
     res.send("Hello World!");
   });
 
