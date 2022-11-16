@@ -32,7 +32,7 @@ export function initializeServer() {
       },
       description: data.issue.title,
       url: data.issue.html_url,
-      action: data.issue.action,
+      action: data.action,
     });
   });
 
