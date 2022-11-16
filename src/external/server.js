@@ -5,7 +5,7 @@ const webhookHandler = GithubWebHook({
   secret: "githubsecret",
 });
 import bodyParser from "body-parser";
-import { sendMessage } from "./discord";
+import { sendMessage } from "./discord.js";
 
 let app;
 
