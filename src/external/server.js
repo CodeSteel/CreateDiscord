@@ -24,11 +24,11 @@ export function initializeServer() {
     console.log(`Received webhook (${event})`, repo, data);
 
     sendMessage(repo, {
-      id: data.issue.number,
+      id: toString(data.issue.number),
       user: {
         name: data.issue.user.login,
-        url: `https://github.com/${data.issue.user.login}`,
-        avatar: `https://github.com/${data.issue.user.login}.png`,
+        url: data.issue.user.html_url,
+        avatar: data.issue.user.avatar_url,
       },
       description: data.issue.title,
       url: data.issue.html_url,
