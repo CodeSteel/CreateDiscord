@@ -1,6 +1,9 @@
 // const setRepo = require("../external/data.js").setRepo;
 const SlashCommandBuilder = require("@discordjs/builders").SlashCommandBuilder;
 
+// dynamic import the data module
+const data = await import("../external/data.js");
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("setrepo")
@@ -20,10 +23,17 @@ module.exports = {
   async execute(interaction) {
     const webhook = interaction.options.getString("webhook");
     const repo = interaction.options.getString("repo");
-    require("../external/data.js").setRepo(repo, {
-      webhook: webhook,
+
+    // use the dynamic import to call the setRepo function
+    data.setRepo(repo, {
       channel: interaction.channel.name,
+      webhook: webhook,
     });
+
+    // require("../external/data.js").setRepo(repo, {
+    //   webhook: webhook,
+    //   channel: interaction.channel.name,
+    // });
     await interaction.reply(
       "Webhook has been set successfully for channel #" +
         interaction.channel.name +
