@@ -27,7 +27,11 @@ export function initializeServer() {
 
     const issueData = getChannel(repo);
     let issueChannel = issueData.channel;
+    console.log("Issue CHannel", issueChannel);
+
     issueChannel = issueChannel.toString();
+
+    console.log("String issue channel", issueChannel);
 
     if (!issueChannel) {
       return;
