@@ -21,7 +21,7 @@ module.exports = {
     await interaction.reply(
       "Repository `" +
         repo +
-        "` has been set to channel <" +
+        "` has been set to channel <#" +
         interaction.channel.id +
         ">"
     );
