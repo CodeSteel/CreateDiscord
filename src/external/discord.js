@@ -100,7 +100,7 @@ export const sendMessage = (repo, issue) => {
   }
 
   const channel = client.channels.cache.find(
-    (c) => c.name.toLowerCase() === repo.toLowerCase()
+    (c) => c.name.toLowerCase() === toString(repo).toLowerCase()
   );
   if (!channel) {
     console.error(`No channel found for ${repo}`);
