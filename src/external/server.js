@@ -11,6 +11,12 @@ export function initializeServer() {
     res.send("Hello World!");
   });
 
+  // post request from github webhook
+  app.post("/webhook", (req, res) => {
+    console.log(req.body);
+    res.send("Hello World!");
+  });
+
   app.listen(3000, () => {
     console.log("Server listening on port 3000!");
   });
