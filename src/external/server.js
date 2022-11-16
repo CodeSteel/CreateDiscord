@@ -23,9 +23,8 @@ export function initializeServer() {
   });
 
   webhookHandler.on("*", function (event, repo, data) {
-    console.log(`Received webhook (${event})`, repo, data);
-
     const issueData = getChannel(repo);
+    console.log("Issue Data", issueData);
     let issueChannel = issueData.channel;
     console.log("Issue CHannel", issueChannel);
 
