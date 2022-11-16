@@ -93,7 +93,7 @@ export const getBot = () => client;
 export const sendMessage = (repo, issue) => {
   // get channel by name from repo
   const channels = client.channels.cache.filter(
-    (c) => c.name === toString(repo).toLowerCase()
+    (c) => toString(c.name).toLowerCase() === toString(repo).toLowerCase()
   );
   if (channels.size === 0) {
     console.error(`No channel found for ${repo}`);
@@ -103,7 +103,6 @@ export const sendMessage = (repo, issue) => {
 
   const embed = new EmbedBuilder()
     .setTitle(issue.id)
-    // set author
     .setAuthor({
       name: issue.user.name,
       avatar: issue.user.avatar,

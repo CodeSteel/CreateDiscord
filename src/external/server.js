@@ -22,16 +22,16 @@ export function initializeServer() {
   webhookHandler.on("event", function (event, repo, data) {
     console.log(event, repo, data);
 
-    // sendMessage(repo, {
-    //   id: data.issue.number,
-    //   user: {
-    //     name: data.issue.user.login,
-    //     url: `https://github.com/${data.issue.user.login}`,
-    //     avatar: `https://github.com/${data.issue.user.login}.png`,
-    //   },
-    //   description: data.issue.title,
-    //   url: data.issue.html_url,
-    // });
+    sendMessage(repo, {
+      id: data.issue.number,
+      user: {
+        name: data.issue.user.login,
+        url: `https://github.com/${data.issue.user.login}`,
+        avatar: `https://github.com/${data.issue.user.login}.png`,
+      },
+      description: data.issue.title,
+      url: data.issue.html_url,
+    });
   });
 
   app.listen(3000, () => {
