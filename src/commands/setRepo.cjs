@@ -21,9 +21,9 @@ module.exports = {
     await interaction.reply(
       "Repository `" +
         repo +
-        "` has been set successfully for channel <#" +
-        interaction.channel.name +
-        ">!"
+        "` has been set to channel <" +
+        interaction.channel.id +
+        ">"
     );
   },
 };
