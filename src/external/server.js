@@ -25,13 +25,13 @@ export function initializeServer() {
   webhookHandler.on("*", function (event, repo, data) {
     console.log(`Received webhook (${event})`, repo, data);
 
-    const channel = getChannel(repo);
+    const issueData = getChannel(repo);
 
-    if (!channel) {
+    if (!issueData) {
       return;
     }
 
-    sendMessage(channel, {
+    sendMessage(issueData.channel, {
       number: data.issue.number,
       user: {
         name: data.issue.user.login,

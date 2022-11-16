@@ -15,7 +15,7 @@ async function getRepo(channel) {
 }
 
 async function getChannel(repo) {
-  return await db.get(repo).channel;
+  return await db.get(repo);
 }
 
 module.exports = {
