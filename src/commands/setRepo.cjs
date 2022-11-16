@@ -2,7 +2,7 @@
 const SlashCommandBuilder = require("@discordjs/builders").SlashCommandBuilder;
 
 // dynamic import the data module
-const data = import("../external/data.js").setRepo;
+const setRepo = import("../external/data.js").setRepo;
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -25,7 +25,7 @@ module.exports = {
     const repo = interaction.options.getString("repo");
 
     // use the dynamic import to call the setRepo function
-    data.setRepo(repo, {
+    setRepo(repo, {
       channel: interaction.channel.name,
       webhook: webhook,
     });
