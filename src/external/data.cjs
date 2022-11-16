@@ -1,5 +1,5 @@
 const JSONdb = require("simple-json-db");
-const db = new JSONdb("./../../db.json");
+const db = new JSONdb("./db.json");
 
 function setRepo(channel, repo) {
   db.set(channel, repo);
