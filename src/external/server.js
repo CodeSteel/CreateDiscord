@@ -6,7 +6,8 @@ const webhookHandler = GithubWebHook({
 });
 import bodyParser from "body-parser";
 import { sendMessage } from "./discord.js";
-import { getRepo } from "./data.js";
+import pkg from "./data.cjs";
+const { getRepo } = pkg;
 
 let app;
 
