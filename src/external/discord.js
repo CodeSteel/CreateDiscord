@@ -109,9 +109,9 @@ export const sendMessage = (repo, issue) => {
 
   console.log(`Sending message to ${channel.name}`);
 
-  const description = toString(issue.description).replace(/\r?\n/g, " ");
+  const description = issue.description;
   if (description === "undefined" || !description) {
-    issue.description = "No description provided";
+    description = "No description provided";
   }
   const mdDescription = `${issue.title}\n\n> ${description}`;
 
