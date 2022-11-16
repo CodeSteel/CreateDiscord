@@ -94,7 +94,7 @@ export const initializeBot = async () => {
 export const getBot = () => client;
 
 export const sendMessage = (repo, issue) => {
-  const opened = issue.action === "opened";
+  const opened = issue.action === "opened" || issue.action === "reopened";
   if (!opened && issue.action !== "closed") {
     return;
   }
