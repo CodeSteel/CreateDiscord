@@ -1,8 +1,13 @@
 import express from "express";
 import GithubWebHook from "express-github-webhook";
+
+// import dotenv
+import * as dotenv from "dotenv";
+dotenv.config();
+
 const webhookHandler = GithubWebHook({
   path: "/webhook",
-  secret: "githubsecret",
+  secret: process.env.HOOK_SECRET,
 });
 import bodyParser from "body-parser";
 import { sendMessage } from "./discord.js";
