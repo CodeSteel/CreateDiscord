@@ -1,5 +1,5 @@
 import express from "express";
-import * as GithubWebHook from "express-github-webhook";
+import GithubWebHook from "express-github-webhook";
 const webhookHandler = GithubWebHook({
   path: "/webhook",
   secret: "githubsecret",
