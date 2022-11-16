@@ -23,30 +23,31 @@ export function initializeServer() {
   });
 
   webhookHandler.on("*", function (event, repo, data) {
-    const issueData = getChannel(repo);
-    console.log("Issue Data", issueData);
-    let issueChannel = issueData.channel;
-    console.log("Issue CHannel", issueChannel);
+    getChannel(repo).then((channel) => {
+      if (!channel) {
+        console.error(`No channel found for ${repo}`);
+        return;
+      }
 
-    issueChannel = issueChannel.toString();
+      let issueChannel = channel.channel;
+      issueChannel = issueChannel.toString();
 
-    console.log("String issue channel", issueChannel);
+      if (!issueChannel) {
+        return;
+      }
 
-    if (!issueChannel) {
-      return;
-    }
-
-    sendMessage(issueChannel, {
-      number: data.issue.number,
-      user: {
-        name: data.issue.user.login,
-        url: data.issue.user.html_url,
-        avatar: data.issue.user.avatar_url,
-      },
-      title: data.issue.title,
-      description: data.issue.body,
-      url: data.issue.html_url,
-      action: data.action,
+      sendMessage(issueChannel, {
+        number: data.issue.number,
+        user: {
+          name: data.issue.user.login,
+          url: data.issue.user.html_url,
+          avatar: data.issue.user.avatar_url,
+        },
+        title: data.issue.title,
+        description: data.issue.body,
+        url: data.issue.html_url,
+        action: data.action,
+      });
     });
   });
 
