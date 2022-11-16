@@ -102,7 +102,7 @@ export const sendMessage = (repo, issue) => {
   const channel = channels.first();
 
   const embed = new EmbedBuilder()
-    .setTitle(toString(issue.number))
+    .setTitle(issue.number)
     .setAuthor({
       name: issue.user.name,
       icon_url: issue.user.avatar,
