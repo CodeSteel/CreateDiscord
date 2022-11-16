@@ -105,9 +105,7 @@ export const sendMessage = (repo, issue) => {
   console.log(`Sending message to ${channel.name}`);
 
   const opened = issue.action === "opened";
-  const description = issue.description
-    .substring(0, 1024)
-    .replace(/\r?\n/g, " ");
+  const description = toString(issue.description).replace(/\r?\n/g, " ");
   const mdDescription = `${issue.title}\n\n> ${description}`;
 
   const embed = new EmbedBuilder()
