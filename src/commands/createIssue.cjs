@@ -72,11 +72,11 @@ module.exports = {
 
     await interaction.reply({
       content:
-        "Issue #" +
+        "Created Issue `#" +
         issue.data.number +
-        "`" +
+        " | " +
         issue.data.title +
-        "` has been created in repository `" +
+        "` in repository `" +
         repo +
         "`",
       ephemeral: true,
