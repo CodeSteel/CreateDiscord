@@ -14,6 +14,12 @@ async function getRepo(channel) {
   return repo;
 }
 
+async function getAllRepo() {
+  const json = await db.JSON();
+
+  return Object.keys(json);
+}
+
 async function getChannel(repo) {
   return await db.get(repo);
 }
@@ -22,4 +28,5 @@ module.exports = {
   setRepo,
   getRepo,
   getChannel,
+  getAllRepo
 };
