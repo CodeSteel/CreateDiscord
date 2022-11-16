@@ -26,6 +26,10 @@ export function initializeServer() {
 
     const repoData = getRepo(repo);
 
+    if (!repoData) {
+      return;
+    }
+
     sendMessage(repoData.channel, {
       number: data.issue.number,
       user: {
