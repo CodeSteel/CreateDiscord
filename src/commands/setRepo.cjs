@@ -2,7 +2,7 @@
 const SlashCommandBuilder = require("@discordjs/builders").SlashCommandBuilder;
 
 // dynamic import the data module
-const data = await import("../external/data.js");
+const data = import("../external/data.js").setRepo;
 
 module.exports = {
   data: new SlashCommandBuilder()
