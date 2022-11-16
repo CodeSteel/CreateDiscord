@@ -101,6 +101,17 @@ export const sendMessage = (repo, issue) => {
   }
   const channel = channels.first();
 
+  console.log(`Sending message to ${channel.name}`);
+
+  console.log(
+    "Issue Name: " + issue.description,
+    "Issue URL: " + issue.url,
+    "Issue #:" + issue.number,
+    "Issue Author: " + issue.user.name,
+    "Issue Author Avatar: " + issue.user.avatar,
+    "Issue Author URL: " + issue.user.url
+  );
+
   const embed = new EmbedBuilder()
     .setTitle(issue.number)
     .setAuthor({
