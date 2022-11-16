@@ -92,7 +92,9 @@ export const getBot = () => client;
 
 export const sendMessage = (repo, issue) => {
   // get channel by name from repo
-  const channels = client.channels.cache.filter((c) => c.name === repo);
+  const channels = client.channels.cache.filter(
+    (c) => c.name === toString(repo).toLowerCase()
+  );
   if (channels.size === 0) {
     console.error(`No channel found for ${repo}`);
     return;
