@@ -90,13 +90,26 @@ export const initializeBot = async () => {
 
 export const getBot = () => client;
 
-export const sendMessage = (channel, title, message, url) => {
-  const embed = new EmbedBuilder()
-    .setTitle(title)
-    .setColor(0x00ae86)
-    .setDescription(message + "\n\n" + url);
+export const sendMessage = (repo, issue) => {
+  // get channel by name from repo
+  const channels = client.channels.cache.filter((c) => c.name === repo);
+  if (channels.size === 0) {
+    console.error(`No channel found for ${repo}`);
+    return;
+  }
+  const channel = channels.first();
 
-  client.channels.cache.get(channel).send({
-    embeds: [embed],
-  });
+  const embed = new EmbedBuilder()
+    .setTitle(issue.id)
+    // set author
+    .setAuthor({
+      name: issue.user.name,
+      avatar: issue.user.avatar,
+      url: issue.user.url,
+    })
+    .setColor(0x00ae86)
+    .setDescription(issue.description)
+    .setURL(issue.url);
+
+  channel.send({ embeds: [embed] });
 };
