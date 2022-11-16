@@ -94,14 +94,23 @@ export const getBot = () => client;
 
 export const sendMessage = (repo, issue) => {
   // get channel by name from repo
-  const channels = client.channels.cache.filter(
-    (c) => toString(c.name).toLowerCase() === toString(repo).toLowerCase()
+  // const channels = client.channels.cache.filter(
+  //   (c) => toString(c.name).toLowerCase() === toString(repo).toLowerCase()
+  // );
+  // if (channels.size === 0) {
+  //   console.error(`No channel found for ${repo}`);
+  //   return;
+  // }
+  // const channel = channels.first();
+
+  // find channel by name, compare by lower case for best results. We just want one single channel
+  const channel = client.channels.cache.find(
+    (c) => c.name.toLowerCase() === repo.toLowerCase()
   );
-  if (channels.size === 0) {
+  if (!channel) {
     console.error(`No channel found for ${repo}`);
     return;
   }
-  const channel = channels.first();
 
   console.log(`Sending message to ${channel.name}`);
 

@@ -21,7 +21,7 @@ initializeServer();
 // .setURL(issue.url);
 
 // setInterval(() => {
-//   sendMessage("thebakery", {
+//   sendMessage("boom", {
 //     number: 37,
 //     user: {
 //       name: "CodeSteel",
