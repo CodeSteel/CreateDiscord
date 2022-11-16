@@ -7,7 +7,7 @@ const webhookHandler = GithubWebHook({
 import bodyParser from "body-parser";
 import { sendMessage } from "./discord.js";
 import pkg from "./data.cjs";
-const { getRepo } = pkg;
+const { getChannel } = pkg;
 
 let app;
 
@@ -25,13 +25,13 @@ export function initializeServer() {
   webhookHandler.on("*", function (event, repo, data) {
     console.log(`Received webhook (${event})`, repo, data);
 
-    const repoData = getRepo(repo);
+    const channel = getChannel(repo);
 
-    if (!repoData) {
+    if (!channel) {
       return;
     }
 
-    sendMessage(repoData.channel, {
+    sendMessage(channel, {
       number: data.issue.number,
       user: {
         name: data.issue.user.login,
