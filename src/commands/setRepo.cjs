@@ -19,9 +19,11 @@ module.exports = {
     });
 
     await interaction.reply(
-      "Webhook has been set successfully for channel #" +
+      "Repository `" +
+        repo +
+        "` has been set successfully for channel <#" +
         interaction.channel.name +
-        "!"
+        ">!"
     );
   },
 };
