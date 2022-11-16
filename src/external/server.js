@@ -1,5 +1,5 @@
 import express from "express";
-import GithubWebHook from "express-github-webhook";
+import * as GithubWebHook from "express-github-webhook";
 const webhookHandler = GithubWebHook({
   path: "/webhook",
   secret: "githubsecret",
@@ -13,13 +13,14 @@ export function initializeServer() {
 
   app = express();
   app.use(bodyParser.json());
+  app.use(webhookHandler);
 
   app.get("/", (req, res) => {
     res.send("Hello World!");
   });
 
-  webhookHandler.on("event", function (repo, data) {
-    console.log(repo, data);
+  webhookHandler.on("*", function (event, repo, data) {
+    console.log(event, repo, data);
   });
 
   app.listen(3000, () => {
