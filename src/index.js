@@ -21,14 +21,15 @@ initializeServer();
 // .setURL(issue.url);
 
 // setInterval(() => {
-//   sendMessage("flux-shadow", {
-//     id: "502",
+//   sendMessage("thebakery", {
+//     number: 37,
 //     user: {
-//       name: "Steel",
+//       name: "CodeSteel",
 //       url: "https://github.com/CodeSteel",
-//       avatar: "https://github.com/CodeSteel.png",
+//       avatar: "https://avatars.githubusercontent.com/u/48765827?v=4",
 //     },
-//     description: "This is a test issue",
-//     url: "https://github.com/CreateInc/flux-shadow/issues/502",
+//     description: "better permissions 😎",
+//     url: "https://github.com/CodeSteel/TheBakery/issues/37",
+//     action: "opened",
 //   });
 // }, 1500);
