@@ -6,13 +6,15 @@ import {
   Events,
   REST,
   Routes,
+  ActivityType,
 } from "discord.js";
 import fs from "fs";
 import * as dotenv from "dotenv";
 dotenv.config();
+import { GetServerData } from "./server_request.js";
+import { getCompletion } from "./openai.js";
 
 import { createRequire } from "module";
-import { getAllRepo } from "./data.cjs";
 const require = createRequire(import.meta.url);
 
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
@@ -39,7 +41,11 @@ const getCommands = () => {
 
 export const initializeBot = async () => {
   client = new Client({
-    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
+    intents: [
+      GatewayIntentBits.Guilds,
+      GatewayIntentBits.GuildMessages,
+      GatewayIntentBits.MessageContent,
+    ],
   });
 
   client.on("ready", async () => {
@@ -61,6 +67,12 @@ export const initializeBot = async () => {
     } catch (error) {
       console.error(error);
     }
+
+    updateBotServerPresence();
+
+    setInterval(() => {
+      updateBotServerPresence();
+    }, process.env.UPDATE_RATE);
   });
 
   //* Listen for commands */
@@ -89,43 +101,98 @@ export const initializeBot = async () => {
     }
   });
 
+  // listen to message events from the channel process.env.GPT_CHANNEL
+  client.on(Events.MessageCreate, async (message) => {
+    console.log(message.content);
+    if (message.author.bot) return;
+
+    if (message.channel.id === process.env.GPT_CHANNEL) {
+      if (message.content.startsWith("!")) return;
+      const reply = await message.reply(":thinking:");
+
+      const lastFewMessagesFromUserInChannel =
+        message.channel.messages.cache.filter(
+          (m) => m.author.id === message.author.id
+        );
+
+      const lastFewMessagesFromBotInChannel =
+        message.channel.messages.cache.filter(
+          (m) => m.author.id === client.user.id
+        );
+
+      const userContent = lastFewMessagesFromUserInChannel.map(
+        (m) => m.content
+      );
+
+      const botContent = lastFewMessagesFromBotInChannel.map((m) => m.content);
+
+      const completion = await getCompletion(
+        message.author.username,
+        message.content,
+        userContent,
+        botContent
+      );
+
+      if (!completion || completion == null) {
+        return reply.edit("No response from GPT-3.");
+      }
+
+      if (completion.length > 2000)
+        return reply.edit("Response from GPT-3 is too long to be sent.");
+
+      await reply.edit(completion);
+    }
+  });
+
   client.login(DISCORD_TOKEN);
+};
+
+const updateBotServerPresence = () => {
+  GetServerData((playerCount) => {
+    updatePresence(playerCount);
+    updateEmbed(playerCount);
+  });
 };
 
 export const getBot = () => client;
 
-export const sendMessage = (repo, issue) => {
-  const opened = issue.action === "opened" || issue.action === "reopened";
-  if (!opened && issue.action !== "closed") {
-    return;
+export const updatePresence = (playerCount) => {
+  client.user.setActivity(playerCount + " Online!", {
+    type: ActivityType.Playing,
+  });
+};
+
+export const updateEmbed = async (playerCount) => {
+  const title = "Connect to " + process.env.GAMEMODE;
+  console.log("Updating embed... (" + playerCount + ")");
+  let connectionString = process.env.CONNECTION_STRING;
+  let embed = new EmbedBuilder()
+    .setTitle(title)
+    .setColor(process.env.EMBED_COLOR)
+    .setDescription(
+      "**Players: " + playerCount + "**\nConnect: " + connectionString
+    );
+
+  let foundMessage = false;
+  await client.channels
+    .fetch(process.env.EMBED_CHANNEL)
+    .then(async (channel) => {
+      await channel.messages.fetch({ limit: 5 }).then((messages) => {
+        for (let message of messages) {
+          console.log(message[1].embeds[0].data.title);
+          if (message[1].embeds[0].data.title.includes("Connect")) {
+            message[1].edit({ embeds: [embed] });
+            foundMessage = true;
+            return;
+          }
+        }
+      });
+    });
+
+  if (!foundMessage) {
+    console.log("No message found, creating new one...");
+    client.channels.fetch(process.env.EMBED_CHANNEL).then((channel) => {
+      channel.send({ embeds: [embed] });
+    });
   }
-
-  const channel = client.channels.cache.find(
-    (c) => c.name.toLowerCase() === repo.toLowerCase()
-  );
-  if (!channel) {
-    console.error(`No channel found for ${repo}`);
-    return;
-  }
-
-  console.log(`Sending message to ${channel.name}`);
-
-  const description = issue.description;
-  if (description === "undefined" || !description) {
-    description = "No description provided";
-  }
-  const mdDescription = `${issue.title}\n\n> ${description}`;
-
-  const embed = new EmbedBuilder()
-    .setTitle(issue.action + " #" + issue.number.toString())
-    .setAuthor({
-      name: issue.user.name,
-      iconURL: issue.user.avatar,
-      url: issue.user.url,
-    })
-    .setColor(opened ? 0xffffff : 0x000)
-    .setDescription(opened ? mdDescription : issue.title)
-    .setURL(issue.url);
-
-  channel.send({ embeds: [embed] });
 };
