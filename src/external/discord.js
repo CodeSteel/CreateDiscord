@@ -103,11 +103,10 @@ export const initializeBot = async () => {
 
   // listen to message events from the channel process.env.GPT_CHANNEL
   client.on(Events.MessageCreate, async (message) => {
-    console.log(message.content);
     if (message.author.bot) return;
+    if (message.content.startsWith("!")) return;
 
     if (message.channel.id === process.env.GPT_CHANNEL) {
-      if (message.content.startsWith("!")) return;
       const reply = await message.reply(":thinking:");
 
       const lastFewMessagesFromUserInChannel =
